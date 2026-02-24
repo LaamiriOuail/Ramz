@@ -113,16 +113,16 @@ impl Parser {
             self.parse_while()
         } else if self.match_keyword("لكل") {
             self.parse_for()
-        } else if self.check_keyword("اكتب") || self.check_keyword("اقرأ") {
+        } else if self.match_keyword("اكتب") {
             if self.check_punctuation("(") {
-                let name = if let Token::Keyword(k) = self.advance().clone() {
-                    k
-                } else {
-                    unreachable!()
-                };
-                self.parse_function_call(name)
+                self.parse_function_call("اكتب".to_string())
             } else {
-                self.advance();
+                Ok(Statement::NoOp)
+            }
+        } else if self.match_keyword("اقرأ") {
+            if self.check_punctuation("(") {
+                self.parse_function_call("اقرأ".to_string())
+            } else {
                 Ok(Statement::NoOp)
             }
         } else if let Token::Identifier(name) = self.peek().clone() {
