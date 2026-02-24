@@ -21,13 +21,6 @@ enum ExecuteFlag {
     Normal,
     Break,
     Continue,
-}
-
-#[derive(Debug, Clone, PartialEq)]
-enum ExecuteFlag {
-    Normal,
-    Break,
-    Continue,
     Return,
 }
 
@@ -35,7 +28,6 @@ enum ExecuteFlag {
 pub struct FunctionDef {
     pub params: Vec<String>,
     pub body: Box<Statement>,
-    pub closure: Environment,
 }
 
 pub struct Environment {
@@ -179,14 +171,6 @@ impl Interpreter {
                 let function_def = FunctionDef {
                     params: params.clone(),
                     body: body.clone(),
-                    closure: std::mem::replace(
-                        &mut self.env,
-                        Environment {
-                            variables: HashMap::new(),
-                            functions: self.env.functions.clone(),
-                            parent: None,
-                        },
-                    ),
                 };
                 self.env.define_function(name.clone(), function_def);
                 Ok((RamzValue::Boolean(true), ExecuteFlag::Normal))
@@ -545,22 +529,13 @@ impl Interpreter {
                 let func_args = &args[1..];
                 
                 if let Some(function_def) = self.env.get_function(function_name) {
-                    let mut local_env = Environment {
-                        variables: HashMap::new(),
-                        functions: function_def.closure.functions.clone(),
-                        parent: Some(Box::new(Environment {
-                            variables: self.env.variables.clone(),
-                            functions: self.env.functions.clone(),
-                            parent: None,
-                        })),
-                    };
+                    let mut local_env = Environment::with_parent(std::mem::replace(&mut self.env, Environment::new()));
                     
                     for (param, arg) in function_def.params.iter().zip(func_args) {
                         local_env.define(param.clone(), arg.clone(), None);
                     }
                     
-                    let mut interpreter = Interpreter { env: local_env };
-                    let (result, _) = interpreter.execute_statement(&function_def.body)?;
+                    let (result, _) = Interpreter { env: local_env }.execute_statement(&function_def.body)?;
                     Ok(result)
                 } else {
                     Err(InterpreterError::RuntimeError(format!(
@@ -614,4 +589,3 @@ impl Interpreter {
             ))),
         }
     }
-}
