@@ -155,10 +155,21 @@ ramz program.ramz
 
 توثيق شامل ومفصل للأطفال في مجلد `docs/tutorial/`:
 
-1. [الخطوات الأولى](docs/tutorial/01-first-steps.md)
-2. [المتغيرات](docs/tutorial/02-variables.md)
-3. [القراءة والكتابة](docs/tutorial/03-input-output.md)
-4. [الدوال](docs/tutorial/04-functions.md)
+### الدروس التعليمية:
+1. [الخطوات الأولى](docs/tutorial/01-first-steps.md) - Hello World
+2. [المتغيرات](docs/tutorial/02-variables.md) - تخزين المعلومات
+3. [القراءة والكتابة](docs/tutorial/03-input-output.md) - التفاعل مع المستخدم
+4. [الدوال](docs/tutorial/04-functions.md) - إنشاء واستخدام الدوال
+5. [الشرطيات](docs/tutorial/05-conditionals.md) - اتخاذ القرارات
+6. [الحلقات](docs/tutorial/06-loops.md) - التكرار
+7. [الأنواع](docs/tutorial/07-types.md) - فهم البيانات
+8. [العمليات](docs/tutorial/08-operators.md) - العمليات الحسابية والمنطقية
+9. [القوائم والمجموعات](docs/tutorial/09-collections.md) - مجموعات البيانات
+10. [الدوال المدمجة](docs/tutorial/10-builtins.md) - دوال جاهزة
+
+### أدلة إضافية:
+- [الدليل الشامل للمبتدئين](docs/beginner-guide.md) - ابدأ رحلتك هنا!
+- [مرجع الدوال](docs/reference/functions.md) - دليل سريع للدوال
 
 ## 🧪 الاختبارات
 

@@ -1,0 +1,6 @@
+دالة greeting(name) {
+    ارجع "مرحباً " + name
+}
+
+متغير message = ادع greeting("أحمد")
+اكتب message
