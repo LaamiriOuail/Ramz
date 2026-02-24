@@ -107,6 +107,8 @@ impl Parser {
     fn parse_statement(&mut self) -> Result<Statement, ParserError> {
         if self.match_keyword("متغير") {
             self.parse_variable_decl()
+        } else if self.match_keyword("دالة") {
+            self.parse_function_decl()
         } else if self.match_keyword("إذا") {
             self.parse_if()
         } else if self.match_keyword("كرر") {
@@ -119,15 +121,19 @@ impl Parser {
             self.parse_break()
         } else if self.match_keyword("تخطى") {
             self.parse_continue()
+        } else if self.match_keyword("ارجع") {
+            self.parse_return()
+        } else if self.match_keyword("ادع") {
+            self.parse_invoke_function()
         } else if self.match_keyword("اكتب") {
             if self.check_punctuation("(") {
-                self.parse_function_call("اكتب".to_string())
+                self.parse_builtin_call("اكتب".to_string())
             } else {
                 Ok(Statement::NoOp)
             }
         } else if self.match_keyword("اقرأ") {
             if self.check_punctuation("(") {
-                self.parse_function_call("اقرأ".to_string())
+                self.parse_builtin_call("اقرأ".to_string())
             } else {
                 Ok(Statement::NoOp)
             }
@@ -376,6 +382,162 @@ impl Parser {
 
     fn parse_continue(&mut self) -> Result<Statement, ParserError> {
         Ok(Statement::Continue)
+    }
+
+    fn parse_function_decl(&mut self) -> Result<Statement, ParserError> {
+        let name = if let Token::Identifier(n) = self.peek().clone() {
+            self.advance();
+            n
+        } else {
+            return Err(ParserError::UnexpectedToken {
+                expected: "اسم الدالة".to_string(),
+                found: format!("{:?}", self.peek()),
+            });
+        };
+
+        if !self.match_punctuation("(") {
+            return Err(ParserError::UnexpectedToken {
+                expected: "(".to_string(),
+                found: format!("{:?}", self.peek()),
+            });
+        }
+
+        let params = self.parse_params()?;
+
+        if !self.match_punctuation(")") {
+            return Err(ParserError::UnexpectedToken {
+                expected: ")".to_string(),
+                found: format!("{:?}", self.peek()),
+            });
+        }
+
+        let mut return_type = None;
+        if self.check_punctuation(":") {
+            self.advance();
+            return_type = Some(self.parse_type()?);
+        }
+
+        let body = Box::new(self.parse_block()?);
+
+        Ok(Statement::FunctionDecl {
+            name,
+            params,
+            return_type,
+            body,
+        })
+    }
+
+    fn parse_return(&mut self) -> Result<Statement, ParserError> {
+        let value = self.parse_expression()?;
+        Ok(Statement::Return { value })
+    }
+
+    fn parse_params(&mut self) -> Result<Vec<String>, ParserError> {
+        let mut params = Vec::new();
+
+        if !self.check_punctuation(")") {
+            loop {
+                if let Token::Identifier(param) = self.peek().clone() {
+                    self.advance();
+                    params.push(param);
+                } else {
+                    break;
+                }
+
+                if !self.match_punctuation(",") {
+                    break;
+                }
+            }
+        }
+
+        Ok(params)
+    }
+
+    fn parse_expression(&mut self) -> Result<Expr, ParserError> {
+        self.parse_comparison()
+    }
+
+    fn parse_builtin_call(&mut self, name: String) -> Result<Statement, ParserError> {
+        let mut args = Vec::new();
+
+        if !self.match_punctuation("(") {
+            return Err(ParserError::UnexpectedToken {
+                expected: "(".to_string(),
+                found: format!("{:?}", self.peek()),
+            });
+        }
+
+        if !self.check_punctuation(")") {
+            loop {
+                args.push(self.parse_expression()?);
+                if !self.match_punctuation(",") {
+                    break;
+                }
+            }
+        }
+
+        if !self.match_punctuation(")") {
+            return Err(ParserError::UnexpectedToken {
+                expected: ")".to_string(),
+                found: format!("{:?}", self.peek()),
+            });
+        }
+
+        Ok(Statement::FunctionCall { name, args })
+    }
+
+    fn parse_invoke_function(&mut self) -> Result<Statement, ParserError> {
+        self.advance();
+
+        if !self.match_keyword("دالة") {
+            return Err(ParserError::UnexpectedToken {
+                expected: "دالة".to_string(),
+                found: format!("{:?}", self.peek()),
+            });
+        }
+
+        let function_name = if let Token::Identifier(n) = self.peek().clone() {
+            self.advance();
+            n
+        } else {
+            return Err(ParserError::UnexpectedToken {
+                expected: "اسم الدالة".to_string(),
+                found: format!("{:?}", self.peek()),
+            });
+        };
+
+        if !self.match_punctuation("(") {
+            return Err(ParserError::UnexpectedToken {
+                expected: "(".to_string(),
+                found: format!("{:?}", self.peek()),
+            });
+        }
+
+        let mut args = Vec::new();
+
+        if !self.check_punctuation(")") {
+            loop {
+                args.push(self.parse_expression()?);
+                if !self.match_punctuation(",") {
+                    break;
+                }
+            }
+        }
+
+        if !self.match_punctuation(")") {
+            return Err(ParserError::UnexpectedToken {
+                expected: ")".to_string(),
+                found: format!("{:?}", self.peek()),
+            });
+        }
+
+        Ok(Statement::FunctionCall {
+            name: "ادع".to_string(),
+            args: vec![
+                Expr::Literal(RamzValue::String(function_name)),
+                Expr::List(args),
+            ],
+        })
     }
 
     fn parse_expression(&mut self) -> Result<Expr, ParserError> {

@@ -81,6 +81,15 @@ pub enum Statement {
         iterable: Option<Expr>,
         body: Box<Statement>,
     },
+    FunctionDecl {
+        name: String,
+        params: Vec<String>,
+        return_type: Option<RamzType>,
+        body: Box<Statement>,
+    },
+    Return {
+        value: Expr,
+    },
     Block(Vec<Statement>),
     Break,
     Continue,
