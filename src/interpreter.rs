@@ -16,6 +16,13 @@ pub enum InterpreterError {
     InputError(String),
 }
 
+#[derive(Debug, Clone, PartialEq)]
+enum ExecuteFlag {
+    Normal,
+    Break,
+    Continue,
+}
+
 pub struct Environment {
     variables: HashMap<String, (RamzValue, Option<RamzType>)>,
 }
@@ -70,12 +77,21 @@ impl Interpreter {
 
     pub fn interpret(&mut self, program: &Program) -> Result<(), InterpreterError> {
         for stmt in &program.statements {
-            self.execute_statement(stmt)?;
+            let (_, flag) = self.execute_statement(stmt)?;
+            if matches!(flag, ExecuteFlag::Break) {
+                return Err(InterpreterError::RuntimeError("اوقف خارج حلقة".to_string()));
+            }
+            if matches!(flag, ExecuteFlag::Continue) {
+                return Err(InterpreterError::RuntimeError("تخطى خارج حلقة".to_string()));
+            }
         }
         Ok(())
     }
 
-    fn execute_statement(&mut self, stmt: &Statement) -> Result<RamzValue, InterpreterError> {
+    fn execute_statement(
+        &mut self,
+        stmt: &Statement,
+    ) -> Result<(RamzValue, ExecuteFlag), InterpreterError> {
         match stmt {
             Statement::VariableDecl {
                 name,
@@ -96,19 +112,20 @@ impl Interpreter {
 
                 self.env
                     .define(name.clone(), evaluated_value, type_annotation.clone());
-                Ok(RamzValue::Boolean(true))
+                Ok((RamzValue::Boolean(true), ExecuteFlag::Normal))
             }
             Statement::Assignment { name, value } => {
                 let evaluated_value = self.evaluate_expr(value)?;
                 self.env.set(name, evaluated_value)?;
-                Ok(RamzValue::Boolean(true))
+                Ok((RamzValue::Boolean(true), ExecuteFlag::Normal))
             }
             Statement::FunctionCall { name, args } => {
                 let mut evaluated_args = Vec::new();
                 for arg in args {
                     evaluated_args.push(self.evaluate_expr(arg)?);
                 }
-                self.call_function(name, &evaluated_args)
+                let result = self.call_function(name, &evaluated_args)?;
+                Ok((result, ExecuteFlag::Normal))
             }
             Statement::If {
                 condition,
@@ -123,7 +140,7 @@ impl Interpreter {
                 } else if let Some(els) = else_stmt {
                     self.execute_statement(els)
                 } else {
-                    Ok(RamzValue::Boolean(true))
+                    Ok((RamzValue::Boolean(true), ExecuteFlag::Normal))
                 }
             }
             Statement::While { condition, body } => {
@@ -134,48 +151,135 @@ impl Interpreter {
                     if !is_true {
                         break;
                     }
-                    result = self.execute_statement(body)?;
+                    let (res, flag) = self.execute_statement(body)?;
+                    result = res;
+                    match flag {
+                        ExecuteFlag::Break => break,
+                        ExecuteFlag::Continue => continue,
+                        ExecuteFlag::Normal => {}
+                    }
                 }
-                Ok(result)
+                Ok((result, ExecuteFlag::Normal))
+            }
+            Statement::DoWhile { body, condition } => {
+                let mut result = RamzValue::Boolean(true);
+                loop {
+                    let (res, flag) = self.execute_statement(body)?;
+                    result = res;
+                    match flag {
+                        ExecuteFlag::Break => break,
+                        ExecuteFlag::Continue => continue,
+                        ExecuteFlag::Normal => {}
+                    }
+
+                    let cond = self.evaluate_expr(condition)?;
+                    let is_true = matches!(cond, RamzValue::Boolean(true));
+                    if !is_true {
+                        break;
+                    }
+                }
+                Ok((result, ExecuteFlag::Normal))
             }
             Statement::For {
                 variable,
+                start,
+                end,
+                step,
                 iterable,
                 body,
             } => {
-                let iter = self.evaluate_expr(iterable)?;
                 let mut result = RamzValue::Boolean(true);
 
-                match iter {
-                    RamzValue::List(items) => {
-                        for item in items {
-                            self.env.define(variable.clone(), item.clone(), None);
-                            result = self.execute_statement(body)?;
+                // Range-based for loop
+                if let (Some(start_expr), Some(end_expr)) = (start, end) {
+                    let start_val = self.evaluate_expr(start_expr)?;
+                    let end_val = self.evaluate_expr(end_expr)?;
+                    let step_val = match step.as_ref() {
+                        Some(s) => self.evaluate_expr(s)?,
+                        None => RamzValue::Number(1),
+                    };
+
+                    match (start_val, end_val, step_val) {
+                        (RamzValue::Number(s), RamzValue::Number(e), RamzValue::Number(st)) => {
+                            if st == 0 {
+                                return Err(InterpreterError::TypeError(
+                                    "خطوة صفر غير مسموحة".to_string(),
+                                ));
+                            }
+                            let current = if st > 0 { s..=e } else { e..=s };
+                            for i in current.step_by(st.unsigned_abs() as usize) {
+                                self.env
+                                    .define(variable.clone(), RamzValue::Number(i), None);
+                                let (res, flag) = self.execute_statement(body)?;
+                                result = res;
+                                match flag {
+                                    ExecuteFlag::Break => break,
+                                    ExecuteFlag::Continue => continue,
+                                    ExecuteFlag::Normal => {}
+                                }
+                            }
                         }
-                    }
-                    RamzValue::Tuple(items) => {
-                        for item in items {
-                            self.env.define(variable.clone(), item.clone(), None);
-                            result = self.execute_statement(body)?;
+                        _ => {
+                            return Err(InterpreterError::TypeError(
+                                "يجب أن تكون القيم أرقام في نطاق الحلقة".to_string(),
+                            ));
                         }
-                    }
-                    _ => {
-                        return Err(InterpreterError::TypeError(
-                            "يجب أن يكون التكرار على قائمة أو زوج".to_string(),
-                        ));
                     }
                 }
+                // For-each loop
+                else if let Some(iter_expr) = iterable {
+                    let iter = self.evaluate_expr(iter_expr)?;
+                    match iter {
+                        RamzValue::List(items) => {
+                            for item in items {
+                                self.env.define(variable.clone(), item.clone(), None);
+                                let (res, flag) = self.execute_statement(body)?;
+                                result = res;
+                                match flag {
+                                    ExecuteFlag::Break => break,
+                                    ExecuteFlag::Continue => continue,
+                                    ExecuteFlag::Normal => {}
+                                }
+                            }
+                        }
+                        RamzValue::Tuple(items) => {
+                            for item in items {
+                                self.env.define(variable.clone(), item.clone(), None);
+                                let (res, flag) = self.execute_statement(body)?;
+                                result = res;
+                                match flag {
+                                    ExecuteFlag::Break => break,
+                                    ExecuteFlag::Continue => continue,
+                                    ExecuteFlag::Normal => {}
+                                }
+                            }
+                        }
+                        _ => {
+                            return Err(InterpreterError::TypeError(
+                                "يجب أن يكون التكرار على قائمة أو زوج".to_string(),
+                            ));
+                        }
+                    }
+                } else {
+                    return Err(InterpreterError::RuntimeError("حلقة غير صالحة".to_string()));
+                }
 
-                Ok(result)
+                Ok((result, ExecuteFlag::Normal))
             }
             Statement::Block(stmts) => {
                 let mut result = RamzValue::Boolean(true);
                 for stmt in stmts {
-                    result = self.execute_statement(stmt)?;
+                    let (res, flag) = self.execute_statement(stmt)?;
+                    result = res;
+                    if matches!(flag, ExecuteFlag::Break | ExecuteFlag::Continue) {
+                        return Ok((result, flag));
+                    }
                 }
-                Ok(result)
+                Ok((result, ExecuteFlag::Normal))
             }
-            Statement::NoOp => Ok(RamzValue::Boolean(true)),
+            Statement::Break => Ok((RamzValue::Boolean(true), ExecuteFlag::Break)),
+            Statement::Continue => Ok((RamzValue::Boolean(true), ExecuteFlag::Continue)),
+            Statement::NoOp => Ok((RamzValue::Boolean(true), ExecuteFlag::Normal)),
         }
     }
 
@@ -292,6 +396,18 @@ impl Interpreter {
                 Ok(RamzValue::Boolean(l == r))
             }
             (RamzValue::Number(l), RamzValue::Number(r), BinaryOperator::NotEqual) => {
+                Ok(RamzValue::Boolean(l != r))
+            }
+            (RamzValue::String(l), RamzValue::String(r), BinaryOperator::Equal) => {
+                Ok(RamzValue::Boolean(l == r))
+            }
+            (RamzValue::String(l), RamzValue::String(r), BinaryOperator::NotEqual) => {
+                Ok(RamzValue::Boolean(l != r))
+            }
+            (RamzValue::Boolean(l), RamzValue::Boolean(r), BinaryOperator::Equal) => {
+                Ok(RamzValue::Boolean(l == r))
+            }
+            (RamzValue::Boolean(l), RamzValue::Boolean(r), BinaryOperator::NotEqual) => {
                 Ok(RamzValue::Boolean(l != r))
             }
             (RamzValue::Number(l), RamzValue::Number(r), BinaryOperator::LessThan) => {

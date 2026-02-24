@@ -113,6 +113,12 @@ impl Parser {
             self.parse_while()
         } else if self.match_keyword("لكل") {
             self.parse_for()
+        } else if self.match_keyword("افعل") {
+            self.parse_do_while()
+        } else if self.match_keyword("اوقف") {
+            self.parse_break()
+        } else if self.match_keyword("تخطى") {
+            self.parse_continue()
         } else if self.match_keyword("اكتب") {
             if self.check_punctuation("(") {
                 self.parse_function_call("اكتب".to_string())
@@ -246,11 +252,11 @@ impl Parser {
     fn parse_if(&mut self) -> Result<Statement, ParserError> {
         let condition = self.parse_expression()?;
 
-        let then_stmt = Box::new(self.parse_statement()?);
+        let then_stmt = Box::new(self.parse_block()?);
 
         let mut else_stmt = None;
         if self.match_keyword("وإلا") {
-            else_stmt = Some(Box::new(self.parse_statement()?));
+            else_stmt = Some(Box::new(self.parse_block()?));
         }
 
         Ok(Statement::If {
@@ -260,11 +266,47 @@ impl Parser {
         })
     }
 
+    fn parse_block(&mut self) -> Result<Statement, ParserError> {
+        if !self.match_punctuation("{") {
+            return Ok(self.parse_statement()?);
+        }
+
+        let mut statements = Vec::new();
+
+        while !self.check_punctuation("}") && !self.is_at_end() {
+            statements.push(self.parse_statement()?);
+        }
+
+        if !self.match_punctuation("}") {
+            return Err(ParserError::UnexpectedToken {
+                expected: "}".to_string(),
+                found: format!("{:?}", self.peek()),
+            });
+        }
+
+        Ok(Statement::Block(statements))
+    }
+
     fn parse_while(&mut self) -> Result<Statement, ParserError> {
         let condition = self.parse_expression()?;
-        let body = Box::new(self.parse_statement()?);
+        let body = Box::new(self.parse_block()?);
 
         Ok(Statement::While { condition, body })
+    }
+
+    fn parse_do_while(&mut self) -> Result<Statement, ParserError> {
+        let body = Box::new(self.parse_block()?);
+
+        if !self.match_keyword("طالما") {
+            return Err(ParserError::UnexpectedToken {
+                expected: "طالما".to_string(),
+                found: format!("{:?}", self.peek()),
+            });
+        }
+
+        let condition = self.parse_expression()?;
+
+        Ok(Statement::DoWhile { body, condition })
     }
 
     fn parse_for(&mut self) -> Result<Statement, ParserError> {
@@ -278,21 +320,62 @@ impl Parser {
             });
         };
 
-        if !self.match_keyword("في") {
+        // Check if it's a range loop (for i from 1 to 10)
+        if self.match_keyword("من") {
+            let start = Some(self.parse_expression()?);
+
+            if !self.match_keyword("إلى") {
+                return Err(ParserError::UnexpectedToken {
+                    expected: "إلى".to_string(),
+                    found: format!("{:?}", self.peek()),
+                });
+            }
+
+            let end = Some(self.parse_expression()?);
+
+            let mut step = None;
+            if self.match_keyword("خطوة") {
+                step = Some(self.parse_expression()?);
+            }
+
+            let body = Box::new(self.parse_block()?);
+
+            Ok(Statement::For {
+                variable,
+                start,
+                end,
+                step,
+                iterable: None,
+                body,
+            })
+        }
+        // Otherwise it's a for-each loop (for item in list)
+        else if self.match_keyword("في") {
+            let iterable = Some(self.parse_expression()?);
+            let body = Box::new(self.parse_block()?);
+
+            Ok(Statement::For {
+                variable,
+                start: None,
+                end: None,
+                step: None,
+                iterable,
+                body,
+            })
+        } else {
             return Err(ParserError::UnexpectedToken {
-                expected: "في".to_string(),
+                expected: "من أو في".to_string(),
                 found: format!("{:?}", self.peek()),
             });
         }
+    }
 
-        let iterable = self.parse_expression()?;
-        let body = Box::new(self.parse_statement()?);
+    fn parse_break(&mut self) -> Result<Statement, ParserError> {
+        Ok(Statement::Break)
+    }
 
-        Ok(Statement::For {
-            variable,
-            iterable,
-            body,
-        })
+    fn parse_continue(&mut self) -> Result<Statement, ParserError> {
+        Ok(Statement::Continue)
     }
 
     fn parse_expression(&mut self) -> Result<Expr, ParserError> {

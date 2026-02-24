@@ -69,12 +69,21 @@ pub enum Statement {
         condition: Expr,
         body: Box<Statement>,
     },
+    DoWhile {
+        body: Box<Statement>,
+        condition: Expr,
+    },
     For {
         variable: String,
-        iterable: Expr,
+        start: Option<Expr>,
+        end: Option<Expr>,
+        step: Option<Expr>,
+        iterable: Option<Expr>,
         body: Box<Statement>,
     },
     Block(Vec<Statement>),
+    Break,
+    Continue,
     NoOp,
 }
 
