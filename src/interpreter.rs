@@ -17,7 +17,7 @@ pub enum InterpreterError {
 }
 
 #[derive(Debug, Clone, PartialEq)]
-enum ExecuteFlag {
+pub enum ExecuteFlag {
     Normal,
     Break,
     Continue,
@@ -30,6 +30,7 @@ pub struct FunctionDef {
     pub body: Box<Statement>,
 }
 
+#[derive(Debug, Clone)]
 pub struct Environment {
     variables: HashMap<String, (RamzValue, Option<RamzType>)>,
     functions: HashMap<String, FunctionDef>,
@@ -62,7 +63,7 @@ impl Environment {
     }
 
     pub fn get(&self, name: &str) -> Result<&RamzValue, InterpreterError> {
-        if let Some(v) = self.variables.get(name) {
+        if let Some((v, _)) = self.variables.get(name) {
             Ok(v)
         } else if let Some(parent) = &self.parent {
             parent.get(name)
@@ -72,7 +73,13 @@ impl Environment {
     }
 
     pub fn get_function(&self, name: &str) -> Option<&FunctionDef> {
-        self.functions.get(name)
+        if let Some(func) = self.functions.get(name) {
+            Some(func)
+        } else if let Some(parent) = &self.parent {
+            parent.get_function(name)
+        } else {
+            None
+        }
     }
 
     pub fn set(&mut self, name: &str, value: RamzValue) -> Result<(), InterpreterError> {
@@ -90,21 +97,6 @@ impl Environment {
             Ok(())
         } else {
             Err(InterpreterError::UndefinedVariable(name.to_string()))
-        }
-    }
-
-    pub fn push_scope(&mut self) -> Environment {
-        Environment {
-            variables: HashMap::new(),
-            functions: self.functions.clone(),
-            parent: Some(Box::new(std::mem::replace(
-                self,
-                Environment {
-                    variables: HashMap::new(),
-                    functions: HashMap::new(),
-                    parent: None,
-                },
-            ))),
         }
     }
 }
@@ -161,23 +153,6 @@ impl Interpreter {
                 self.env
                     .define(name.clone(), evaluated_value, type_annotation.clone());
                 Ok((RamzValue::Boolean(true), ExecuteFlag::Normal))
-            }
-            Statement::FunctionDecl {
-                name,
-                params,
-                return_type: _,
-                body,
-            } => {
-                let function_def = FunctionDef {
-                    params: params.clone(),
-                    body: body.clone(),
-                };
-                self.env.define_function(name.clone(), function_def);
-                Ok((RamzValue::Boolean(true), ExecuteFlag::Normal))
-            }
-            Statement::Return { value } => {
-                let evaluated_value = self.evaluate_expr(value)?;
-                Ok((evaluated_value, ExecuteFlag::Return))
             }
             Statement::Assignment { name, value } => {
                 let evaluated_value = self.evaluate_expr(value)?;
@@ -282,7 +257,33 @@ impl Interpreter {
                                 match flag {
                                     ExecuteFlag::Break => break,
                                     ExecuteFlag::Continue => continue,
-                                    ExecuteFlag::Return => return Ok((result, ExecuteFlag::Return)),
+                                    ExecuteFlag::Return => {
+                                        return Ok((result, ExecuteFlag::Return))
+                                    }
+                                    ExecuteFlag::Normal => {}
+                                }
+                            }
+                        }
+                        _ => {
+                            return Err(InterpreterError::TypeError(
+                                "يجب أن تكون القيم أرقام في نطاق الحلقة".to_string(),
+                            ));
+                        }
+                    }
+                } else if let Some(iter_expr) = iterable {
+                    let iter = self.evaluate_expr(iter_expr)?;
+                    match iter {
+                        RamzValue::List(items) => {
+                            for item in items {
+                                self.env.define(variable.clone(), item.clone(), None);
+                                let (res, flag) = self.execute_statement(body)?;
+                                result = res;
+                                match flag {
+                                    ExecuteFlag::Break => break,
+                                    ExecuteFlag::Continue => continue,
+                                    ExecuteFlag::Return => {
+                                        return Ok((result, ExecuteFlag::Return))
+                                    }
                                     ExecuteFlag::Normal => {}
                                 }
                             }
@@ -295,34 +296,55 @@ impl Interpreter {
                                 match flag {
                                     ExecuteFlag::Break => break,
                                     ExecuteFlag::Continue => continue,
-                                    ExecuteFlag::Return => return Ok((result, ExecuteFlag::Return)),
+                                    ExecuteFlag::Return => {
+                                        return Ok((result, ExecuteFlag::Return))
+                                    }
                                     ExecuteFlag::Normal => {}
                                 }
                             }
                         }
-                        }
                         _ => {
                             return Err(InterpreterError::TypeError(
-                                "يجب أن تكون القيم أرقام في نطاق الحلقة".to_string(),
+                                "يجب أن يكون التكرار على قائمة أو زوج".to_string(),
                             ));
                         }
                     }
-                    
-                    Ok((result, ExecuteFlag::Normal))
                 } else {
                     return Err(InterpreterError::RuntimeError("حلقة غير صالحة".to_string()));
                 }
+
+                Ok((result, ExecuteFlag::Normal))
             }
             Statement::Block(stmts) => {
                 let mut result = RamzValue::Boolean(true);
                 for stmt in stmts {
                     let (res, flag) = self.execute_statement(stmt)?;
                     result = res;
-                    if matches!(flag, ExecuteFlag::Break | ExecuteFlag::Continue | ExecuteFlag::Return) {
+                    if matches!(
+                        flag,
+                        ExecuteFlag::Break | ExecuteFlag::Continue | ExecuteFlag::Return
+                    ) {
                         return Ok((result, flag));
                     }
                 }
                 Ok((result, ExecuteFlag::Normal))
+            }
+            Statement::FunctionDecl {
+                name,
+                params,
+                return_type: _,
+                body,
+            } => {
+                let function_def = FunctionDef {
+                    params: params.clone(),
+                    body: body.clone(),
+                };
+                self.env.define_function(name.clone(), function_def);
+                Ok((RamzValue::Boolean(true), ExecuteFlag::Normal))
+            }
+            Statement::Return { value } => {
+                let evaluated_value = self.evaluate_expr(value)?;
+                Ok((evaluated_value, ExecuteFlag::Return))
             }
             Statement::Break => Ok((RamzValue::Boolean(true), ExecuteFlag::Break)),
             Statement::Continue => Ok((RamzValue::Boolean(true), ExecuteFlag::Continue)),
@@ -436,8 +458,11 @@ impl Interpreter {
             (RamzValue::String(l), RamzValue::Float(r), BinaryOperator::Add) => {
                 Ok(RamzValue::String(l.clone() + &r.to_string()))
             }
-            (RamzValue::Float(l), RamzValue::String(r), BinaryOperator::Add) => {
-                Ok(RamzValue::String(l.to_string() + r))
+            (RamzValue::Boolean(l), RamzValue::Boolean(r), BinaryOperator::And) => {
+                Ok(RamzValue::Boolean(*l && *r))
+            }
+            (RamzValue::Boolean(l), RamzValue::Boolean(r), BinaryOperator::Or) => {
+                Ok(RamzValue::Boolean(*l || *r))
             }
             (RamzValue::Number(l), RamzValue::Number(r), BinaryOperator::Equal) => {
                 Ok(RamzValue::Boolean(l == r))
@@ -448,14 +473,8 @@ impl Interpreter {
             (RamzValue::String(l), RamzValue::String(r), BinaryOperator::Equal) => {
                 Ok(RamzValue::Boolean(l == r))
             }
-            (RamzValue::String(l), RamzValue::String(r), BinaryOperator::NotEqual) => {
-                Ok(RamzValue::Boolean(l != r))
-            }
             (RamzValue::Boolean(l), RamzValue::Boolean(r), BinaryOperator::Equal) => {
-                Ok(RamzValue::Boolean(l == r))
-            }
-            (RamzValue::Boolean(l), RamzValue::Boolean(r), BinaryOperator::NotEqual) => {
-                Ok(RamzValue::Boolean(l != r))
+                Ok(RamzValue::Boolean(*l == *r))
             }
             (RamzValue::Number(l), RamzValue::Number(r), BinaryOperator::LessThan) => {
                 Ok(RamzValue::Boolean(l < r))
@@ -468,12 +487,6 @@ impl Interpreter {
             }
             (RamzValue::Number(l), RamzValue::Number(r), BinaryOperator::GreaterEqual) => {
                 Ok(RamzValue::Boolean(l >= r))
-            }
-            (RamzValue::Boolean(l), RamzValue::Boolean(r), BinaryOperator::And) => {
-                Ok(RamzValue::Boolean(*l && *r))
-            }
-            (RamzValue::Boolean(l), RamzValue::Boolean(r), BinaryOperator::Or) => {
-                Ok(RamzValue::Boolean(*l || *r))
             }
             _ => Err(InterpreterError::TypeError(format!(
                 "لا يمكن تطبيق العملية على الأنواع {} و {}",
@@ -508,38 +521,40 @@ impl Interpreter {
             "ادع" => {
                 if args.is_empty() {
                     return Err(InterpreterError::RuntimeError(
-                        "دالة ادع تتطلب اسم الدالة وربما وسيطاً".to_string()
+                        "دالة ادع تتطلب اسم الدالة".to_string(),
                     ));
                 }
-                
-                if args.len() < 2 {
-                    return Err(InterpreterError::RuntimeError(
-                        "دالة ادع تتطلب اسم الدالة وواحد وسيط على الأقل".to_string()
-                    ));
-                }
-                
+
                 let function_name = if let RamzValue::String(func_name) = &args[0] {
                     func_name.clone()
                 } else {
                     return Err(InterpreterError::RuntimeError(
-                        "دالة ادع تتطلب اسم الدالة كنص أول".to_string()
+                        "دالة ادع تتطلب اسم الدالة كنص أول".to_string(),
                     ));
                 };
-                
+
                 let func_args = &args[1..];
-                
-                if let Some(function_def) = self.env.get_function(function_name) {
-                    let mut local_env = Environment::with_parent(std::mem::replace(&mut self.env, Environment::new()));
-                    
-                    for (param, arg) in function_def.params.iter().zip(func_args) {
+
+                if let Some(function_def) = self.env.get_function(&function_name) {
+                    let params = function_def.params.clone();
+                    let body = function_def.body.clone();
+
+                    let mut local_env = Environment::with_parent(Environment {
+                        variables: self.env.variables.clone(),
+                        functions: self.env.functions.clone(),
+                        parent: self.env.parent.clone(),
+                    });
+
+                    for (param, arg) in params.iter().zip(func_args) {
                         local_env.define(param.clone(), arg.clone(), None);
                     }
-                    
-                    let (result, _) = Interpreter { env: local_env }.execute_statement(&function_def.body)?;
+
+                    let (result, _) = Interpreter { env: local_env }.execute_statement(&body)?;
+
                     Ok(result)
                 } else {
                     Err(InterpreterError::RuntimeError(format!(
-                        "الدالة '{}' غير معرفة",
+                        "الدالة '{}' غير موجودة",
                         function_name
                     )))
                 }
@@ -589,3 +604,4 @@ impl Interpreter {
             ))),
         }
     }
+}

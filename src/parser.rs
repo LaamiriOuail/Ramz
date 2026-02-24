@@ -1,5 +1,6 @@
 use crate::ast::*;
-use crate::lexer::{Lexer, LexerError, Token};
+use crate::lexer::{LexerError, Token};
+use crate::types::RamzValue;
 use thiserror::Error;
 
 #[derive(Error, Debug)]
@@ -487,15 +488,6 @@ impl Parser {
     }
 
     fn parse_invoke_function(&mut self) -> Result<Statement, ParserError> {
-        self.advance();
-
-        if !self.match_keyword("دالة") {
-            return Err(ParserError::UnexpectedToken {
-                expected: "دالة".to_string(),
-                found: format!("{:?}", self.peek()),
-            });
-        }
-
         let function_name = if let Token::Identifier(n) = self.peek().clone() {
             self.advance();
             n
@@ -538,10 +530,6 @@ impl Parser {
                 Expr::List(args),
             ],
         })
-    }
-
-    fn parse_expression(&mut self) -> Result<Expr, ParserError> {
-        self.parse_comparison()
     }
 
     fn parse_comparison(&mut self) -> Result<Expr, ParserError> {
@@ -658,6 +646,7 @@ impl Parser {
                     Ok(Expr::Variable(name))
                 }
             }
+            Token::Keyword(k) if k == "ادع" => self.parse_invoke_expression(),
             Token::Keyword(k) if (k == "اقرأ" || k == "اكتب") && self.check_punctuation("(") => {
                 self.parse_function_call_expr(k)
             }
@@ -692,6 +681,51 @@ impl Parser {
         }
 
         Ok(Expr::Call { name, args })
+    }
+
+    fn parse_invoke_expression(&mut self) -> Result<Expr, ParserError> {
+        let function_name = if let Token::Identifier(n) = self.peek().clone() {
+            self.advance();
+            n
+        } else {
+            return Err(ParserError::UnexpectedToken {
+                expected: "اسم الدالة".to_string(),
+                found: format!("{:?}", self.peek()),
+            });
+        };
+
+        if !self.match_punctuation("(") {
+            return Err(ParserError::UnexpectedToken {
+                expected: "(".to_string(),
+                found: format!("{:?}", self.peek()),
+            });
+        }
+
+        let mut args = Vec::new();
+
+        if !self.check_punctuation(")") {
+            loop {
+                args.push(self.parse_expression()?);
+                if !self.match_punctuation(",") {
+                    break;
+                }
+            }
+        }
+
+        if !self.match_punctuation(")") {
+            return Err(ParserError::UnexpectedToken {
+                expected: ")".to_string(),
+                found: format!("{:?}", self.peek()),
+            });
+        }
+
+        let mut invoke_args = vec![Expr::Literal(RamzValue::String(function_name))];
+        invoke_args.extend(args);
+
+        Ok(Expr::Call {
+            name: "ادع".to_string(),
+            args: invoke_args,
+        })
     }
 
     fn parse_list(&mut self) -> Result<Expr, ParserError> {
