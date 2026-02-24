@@ -276,6 +276,18 @@ impl Interpreter {
             (RamzValue::String(l), RamzValue::String(r), BinaryOperator::Add) => {
                 Ok(RamzValue::String(l.clone() + r))
             }
+            (RamzValue::String(l), RamzValue::Number(r), BinaryOperator::Add) => {
+                Ok(RamzValue::String(l.clone() + &r.to_string()))
+            }
+            (RamzValue::Number(l), RamzValue::String(r), BinaryOperator::Add) => {
+                Ok(RamzValue::String(l.to_string() + r))
+            }
+            (RamzValue::String(l), RamzValue::Float(r), BinaryOperator::Add) => {
+                Ok(RamzValue::String(l.clone() + &r.to_string()))
+            }
+            (RamzValue::Float(l), RamzValue::String(r), BinaryOperator::Add) => {
+                Ok(RamzValue::String(l.to_string() + r))
+            }
             (RamzValue::Number(l), RamzValue::Number(r), BinaryOperator::Equal) => {
                 Ok(RamzValue::Boolean(l == r))
             }
