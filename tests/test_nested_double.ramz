@@ -1,9 +1,0 @@
-دالة double(x) {
-    ارجع x + x
-}
-
-دالة quadruple(x) {
-    ارجع ادع double(ادع double(x))
-}
-
-اكتب(ادع quadruple(5))

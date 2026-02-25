@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رمز - لغة برمجة عربية للأطفال</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            display: inline-block;
+        }
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        .feature-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+        }
+        .feature-card h2 {
+            color: #25c2a0;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .section h2 {
+            color: #25c2a0;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-auto-rows: min-content;
+            gap: 1.5rem;
+        }
+        .lesson-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: #333;
+            display: block;
+        }
+        .lesson-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .lesson-card h3 {
+            color: #25c2a0;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+        .lesson-card p {
+            color: #666;
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+        .lesson-number {
+            background: #25c2a0;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+        }
+        .links-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        .links-section h2 {
+            color: #25c2a0;
+            margin-bottom: 1.5rem;
+        }
+        .links-list {
+            list-style: none;
+            padding: 0;
+        }
+        .links-list li {
+            margin-bottom: 0.8rem;
+        }
+        .links-list a {
+            color: #25c2a0;
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            background: #f7f7f7;
+            border-radius: 8px;
+            display: block;
+            transition: all 0.3s;
+        }
+        .links-list a:hover {
+            background: #25c2a0;
+            color: white;
+            transform: translateX(-5px);
+        }
+        .footer {
+            text-align: center;
+            color: rgba(255,255,255,0.7);
+            margin-top: 3rem;
+            padding: 2rem;
+        }
+        .github-link {
+            color: white;
+            background: rgba(255,255,255,0.2);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        .github-link:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+        .search-box {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        @media (max-width: 768px) {
+            .lessons-grid {
+                grid-template-columns: 1fr;
+            }
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>رمز - لغة برمجة عربية للأطفال 🎉</h1>
+            <p>تعلم البرمجة بالعربية بطريقة ممتعة وسهلة</p>
+        </div>
+        
+        <div class="features">
+            <div class="feature-card">
+                <h2>🌍 كلمات مفتاحية عربية</h2>
+                <p>جميع الكلمات المفتاحية باللغة العربية</p>
+            </div>
+            <div class="feature-card">
+                <h2>👶 سهلة التعلم</h2>
+                <p>مناسبة للأطفال مع أمثلة ممتعة</p>
+            </div>
+            <div class="feature-card">
+                <h2>🎮 ممتعة</h2>
+                <p>برامج تفاعلية وأمثلة جميلة</p>
+            </div>
+            <div class="feature-card">
+                <h2>🔧 قوية</h2>
+                <p>تدعم جميع المفاهيم البرمجية الأساسية</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📚 الدروس التعليمية</h2>
+            <div class="lessons-grid">
+                <a href="docs/01-first-steps.md" class="lesson-card">
+                    <h3><span class="lesson-number">1</span> الخطوات الأولى</h3>
+                    <p>كتابة أول برنامج لك - Hello World</p>
+                </a>
+                <a href="docs/02-variables.md" class="lesson-card">
+                    <h3><span class="lesson-number">2</span> المتغيرات</h3>
+                    <p>تخزين واستخدام المعلومات</p>
+                </a>
+                <a href="docs/03-input-output.md" class="lesson-card">
+                    <h3><span class="lesson-number">3</span> القراءة والكتابة</h3>
+                    <p>التفاعل مع المستخدم</p>
+                </a>
+                <a href="docs/04-functions.md" class="lesson-card">
+                    <h3><span class="lesson-number">4</span> الدوال</h3>
+                    <p>إنشاء واستخدام الدوال</p>
+                </a>
+                <a href="docs/05-conditionals.md" class="lesson-card">
+                    <h3><span class="lesson-number">5</span> الشرطيات</h3>
+                    <p>اتخاذ القرارات باستخدام if/else</p>
+                </a>
+                <a href="docs/06-loops.md" class="lesson-card">
+                    <h3><span class="lesson-number">6</span> الحلقات</h3>
+                    <p>التكرار باستخدام while/for</p>
+                </a>
+                <a href="docs/07-types.md" class="lesson-card">
+                    <h3><span class="lesson-number">7</span> الأنواع</h3>
+                    <p>فهم جميع أنواع البيانات</p>
+                </a>
+                <a href="docs/08-operators.md" class="lesson-card">
+                    <h3><span class="lesson-number">8</span> العمليات</h3>
+                    <p>العمليات الحسابية والمنطقية</p>
+                </a>
+                <a href="docs/09-collections.md" class="lesson-card">
+                    <h3><span class="lesson-number">9</span> القوائم والمجموعات</h3>
+                    <p>التعامل مع القوائم والقواميس</p>
+                </a>
+                <a href="docs/10-builtins.md" class="lesson-card">
+                    <h3><span class="lesson-number">10</span> الدوال المدمجة</h3>
+                    <p>استخدام الدوال الجاهزة</p>
+                </a>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📖 أدلة إضافية</h2>
+            <div class="lessons-grid">
+                <a href="beginner-guide.md" class="lesson-card">
+                    <h3>📖 الدليل الشامل للمبتدئين</h3>
+                    <p>ابدأ رحلتك البرمجية من هنا!</p>
+                </a>
+                <a href="quick-reference.md" class="lesson-card">
+                    <h3>📋 مرجع سريع</h3>
+                    <p>دليل سريع لجميع الكلمات المفتاحية</p>
+                </a>
+                <a href="docs/reference/functions.md" class="lesson-card">
+                    <h3>🔗 مرجع الدوال</h3>
+                    <p>مرجع شامل لجميع الدوال</p>
+                </a>
+            </div>
+        </div>
+        
+        <div class="links-section">
+            <h2>🔗 روابط إضافية</h2>
+            <ul class="links-list">
+                <li><a href="https://github.com/LaamiriOuail/Ramz">💻 الكود المصدري على GitHub</a></li>
+                <li><a href="https://github.com/LaamiriOuail/Ramz/issues">🐛 الإبلاغ عن مشاكل</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer">
+            <p>صُنع بـ ❤️ لمساعدة الأطفال على تعلم البرمجة</p>
+            <a href="https://github.com/LaamiriOuail/Ramz" class="github-link">عرض على GitHub</a>
+        </div>
+    </div>
+</body>
+</html>

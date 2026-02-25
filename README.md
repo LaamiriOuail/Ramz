@@ -169,6 +169,7 @@ ramz program.ramz
 
 ### أدلة إضافية:
 - [الدليل الشامل للمبتدئين](docs/beginner-guide.md) - ابدأ رحلتك هنا!
+- [مرجع سريع](docs/quick-reference.md) - دليل سريع لجميع الكلمات المفتاحية
 - [مرجع الدوال](docs/reference/functions.md) - دليل سريع للدوال
 
 ## 🧪 الاختبارات

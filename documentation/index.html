@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رمز - وثائق اللغة</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: #333;
+            display: block;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+        }
+        .card h2 {
+            color: #25c2a0;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+        .card p {
+            color: #666;
+            line-height: 1.6;
+        }
+        .section-title {
+            color: white;
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem;
+        }
+        a {
+            color: #25c2a0;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎉 رمز - لغة برمجة عربية للأطفال</h1>
+            <p>تعلم البرمجة بالعربية بطريقة ممتعة وسهلة</p>
+        </div>
+        
+        <h2 class="section-title">📖 الدليل الشامل</h2>
+        <div class="grid">
+            <a href="docs/beginner-guide.md" class="card">
+                <h2>الدليل الشامل للمبتدئين</h2>
+                <p>ابدأ رحلتك البرمجية من هنا! دليل شامل يغطي كل أساسيات لغة رمز.</p>
+            </a>
+        </div>
+
+        <h2 class="section-title">📚 الدروس التعليمية</h2>
+        <div class="grid">
+            <a href="docs/tutorial/01-first-steps.md" class="card">
+                <h2>1. الخطوات الأولى</h2>
+                <p>كتابة أول برنامج لك - Hello World</p>
+            </a>
+            <a href="docs/tutorial/02-variables.md" class="card">
+                <h2>2. المتغيرات</h2>
+                <p>تخزين واستخدام المعلومات في برامجك</p>
+            </a>
+            <a href="docs/tutorial/03-input-output.md" class="card">
+                <h2>3. القراءة والكتابة</h2>
+                <p>التفاعل مع المستخدم عبر الإدخال والإخراج</p>
+            </a>
+            <a href="docs/tutorial/04-functions.md" class="card">
+                <h2>4. الدوال</h2>
+                <p>إنشاء واستخدام الدوال لتنظيم الكود</p>
+            </a>
+            <a href="docs/tutorial/05-conditionals.md" class="card">
+                <h2>5. الشرطيات</h2>
+                <p>اتخاذ القرارات باستخدام if/else</p>
+            </a>
+            <a href="docs/tutorial/06-loops.md" class="card">
+                <h2>6. الحلقات</h2>
+                <p>تكرار الكود باستخدام while/for</p>
+            </a>
+            <a href="docs/tutorial/07-types.md" class="card">
+                <h2>7. الأنواع</h2>
+                <p>فهم جميع أنواع البيانات في رمز</p>
+            </a>
+            <a href="docs/tutorial/08-operators.md" class="card">
+                <h2>8. العمليات</h2>
+                <p>العمليات الحسابية والمنطقية</p>
+            </a>
+            <a href="docs/tutorial/09-collections.md" class="card">
+                <h2>9. القوائم والمجموعات</h2>
+                <p>التعامل مع القوائم والقواميس</p>
+            </a>
+            <a href="docs/tutorial/10-builtins.md" class="card">
+                <h2>10. الدوال المدمجة</h2>
+                <p>استخدام الدوال الجاهزة (اكتب، اقرأ، ادع)</p>
+            </a>
+        </div>
+
+        <h2 class="section-title">📚 أدلة إضافية</h2>
+        <div class="grid">
+            <a href="docs/quick-reference.md" class="card">
+                <h2>📋 مرجع سريع</h2>
+                <p>دليل سريع لجميع الكلمات المفتاحية والعمليات</p>
+            </a>
+            <a href="docs/reference/functions.md" class="card">
+                <h2>🔗 مرجع الدوال</h2>
+                <p>مرجع شامل لجميع الدوال في لغة رمز</p>
+            </a>
+        </div>
+
+        <div class="header" style="margin-top: 3rem;">
+            <p>
+                <a href="https://github.com/LaamiriOuail/Ramz" style="color: white; font-size: 1.1rem;">
+                    💻 الكود المصدري على GitHub
+                </a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

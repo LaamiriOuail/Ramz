@@ -1,0 +1,292 @@
+/**
+ * Ramz Programming Language - Child-Friendly Arabic Style
+ * Designed for children learning programming in Arabic
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap');
+
+/* Custom CSS Variables for Child-Friendly Design */
+:root {
+  /* Arabic-friendly font stack */
+  --ramz-font-family: 'Tajawal', 'Segoe UI', 'Cairo', 'Arial', sans-serif;
+  --ramz-font-mono: 'Courier New', 'SFMono-Regular', Monaco, Consolas, monospace;
+  
+  /* Child-friendly color palette */
+  --ramz-primary: #5E60CE;      /* Gentle purple */
+  --ramz-primary-light: #7209B7; /* Lighter purple */
+  --ramz-primary-dark: #3C096C;  /* Deeper purple */
+  --ramz-secondary: #F72585;    /* Playful pink */
+  --ramz-accent: #4361EE;       /* Bright blue */
+  --ramz-success: #06FFA5;      /* Success green */
+  --ramz-warning: #FFB700;      /* Warning amber */
+  --ramz-error: #FF006E;        /* Error red */
+  
+  /* Background colors */
+  --ramz-bg-primary: #F8F9FA;   /* Light background */
+  --ramz-bg-secondary: #FFFFFF; /* White for cards */
+  --ramz-bg-code: #2D3436;      /* Dark code background */
+  
+  /* Text colors */
+  --ramz-text-primary: #2D3436; /* Main text */
+  --ramz-text-secondary: #636E72;/* Secondary text */
+  --ramz-text-light: #B2BEC3;   /* Light text */
+  --ramz-text-code: #55EFC4;    /* Code text color */
+  
+  /* Spacing scale for consistency */
+  --ramz-space-xs: 0.25rem;    /* 4px */
+  --ramz-space-sm: 0.5rem;     /* 8px */
+  --ramz-space-md: 1rem;       /* 16px */
+  --ramz-space-lg: 1.5rem;     /* 24px */
+  --ramz-space-xl: 2rem;       /* 32px */
+  --ramz-space-2xl: 3rem;      /* 48px */
+  
+  /* Border radius for rounded elements */
+  --ramz-radius-sm: 0.25rem;   /* 4px */
+  --ramz-radius-md: 0.5rem;    /* 8px */
+  --ramz-radius-lg: 1rem;      /* 16px */
+  --ramz-radius-full: 9999px;  /* Full circle */
+  
+  /* Shadows for depth */
+  --ramz-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --ramz-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --ramz-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Global styles */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: var(--ramz-font-family);
+  direction: rtl;
+  text-align: right;
+  line-height: 1.6;
+  color: var(--ramz-text-primary);
+  background-color: var(--ramz-bg-primary);
+  margin: 0;
+  padding: 0;
+  transition: all 0.3s ease;
+}
+
+/* Typography for children */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ramz-primary-dark);
+  margin: var(--ramz-space-lg) 0 var(--ramz-space-md);
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.25rem; }
+h5 { font-size: 1.125rem; }
+h6 { font-size: 1rem; }
+
+p {
+  margin: var(--ramz-space-md) 0;
+  font-size: 1.125rem;
+  line-height: 1.8;
+}
+
+/* Links and buttons */
+a {
+  color: var(--ramz-primary);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border-radius: var(--ramz-radius-sm);
+}
+
+a:hover {
+  color: var(--ramz-primary-dark);
+  transform: translateY(-1px);
+}
+
+button, .btn {
+  background-color: var(--ramz-primary);
+  color: white;
+  border: none;
+  padding: var(--ramz-space-sm) var(--ramz-space-lg);
+  border-radius: var(--ramz-radius-md);
+  font-family: var(--ramz-font-family);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--ramz-shadow-sm);
+}
+
+button:hover, .btn:hover {
+  background-color: var(--ramz-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--ramz-shadow-md);
+}
+
+/* Code blocks - child friendly */
+pre, code {
+  font-family: var(--ramz-font-mono);
+  direction: ltr;
+  text-align: left;
+}
+
+code {
+  background-color: rgba(94, 96, 206, 0.1);
+  color: var(--ramz-primary-dark);
+  padding: 0.125rem 0.25rem;
+  border-radius: var(--ramz-radius-sm);
+  font-size: 0.875em;
+}
+
+pre {
+  background-color: var(--ramz-bg-code);
+  color: var(--ramz-text-code);
+  padding: var(--ramz-space-lg);
+  border-radius: var(--ramz-radius-lg);
+  overflow-x: auto;
+  margin: var(--ramz-space-lg) 0;
+  box-shadow: var(--ramz-shadow-md);
+  border: 2px solid var(--ramz-primary);
+}
+
+pre code {
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+  font-size: 1rem;
+}
+
+/* Child-friendly navigation */
+.navbar {
+  background-color: var(--ramz-bg-secondary);
+  box-shadow: var(--ramz-shadow-sm);
+  border-bottom: 3px solid var(--ramz-primary);
+}
+
+.navbar__item {
+  font-weight: 500;
+  margin: 0 var(--ramz-space-xs);
+}
+
+.navbar__link:hover {
+  color: var(--ramz-primary-dark);
+  background-color: rgba(94, 96, 206, 0.1);
+}
+
+/* Cards for content sections */
+.card, .admonition {
+  background-color: var(--ramz-bg-secondary);
+  border-radius: var(--ramz-radius-lg);
+  padding: var(--ramz-space-lg);
+  margin: var(--ramz-space-md) 0;
+  box-shadow: var(--ramz-shadow-sm);
+  border-right: 4px solid var(--ramz-primary);
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--ramz-space-lg) 0;
+  background-color: var(--ramz-bg-secondary);
+  border-radius: var(--ramz-radius-md);
+  overflow: hidden;
+  box-shadow: var(--ramz-shadow-sm);
+}
+
+th, td {
+  padding: var(--ramz-space-sm) var(--ramz-space-md);
+  text-align: right;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+th {
+  background-color: var(--ramz-primary);
+  color: white;
+  font-weight: 600;
+}
+
+tr:hover {
+  background-color: rgba(94, 96, 206, 0.05);
+}
+
+/* Lists */
+ul, ol {
+  margin-right: var(--ramz-space-lg);
+}
+
+li {
+  margin: var(--ramz-space-xs) 0;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--ramz-bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--ramz-primary);
+  border-radius: var(--ramz-radius-full);
+  border: 2px solid var(--ramz-bg-primary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ramz-primary-dark);
+}
+
+/* Fun animations for interactive elements */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.interactive-element:hover {
+  animation: bounce 0.5s ease infinite;
+  cursor: pointer;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.75rem; }
+  h3 { font-size: 1.5rem; }
+  p { font-size: 1rem; }
+  
+  .card {
+    margin: var(--ramz-space-sm);
+    padding: var(--ramz-space-md);
+  }
+  
+  pre {
+    padding: var(--ramz-space-md);
+  }
+}
+
+/* Dark theme support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ramz-bg-primary: #1a1a2e;
+    --ramz-bg-secondary: #16213e;
+    --ramz-text-primary: #eaeaea;
+    --ramz-text-secondary: #b8b8b8;
+  }
+}
+
+/* Print styles */
+@media print {
+  * {
+    box-shadow: none !important;
+  }
+  
+  .navbar, .sidebar {
+    display: none !important;
+  }
+  
+  body {
+    color: black;
+    background: white;
+  }
+}

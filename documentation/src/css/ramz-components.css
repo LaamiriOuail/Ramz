@@ -1,0 +1,440 @@
+/**
+ * Ramz Programming Language - Child-Friendly Components
+ * Reusable components designed specifically for children learning Arabic programming
+ */
+
+/* Fun, interactive code examples */
+.ramz-playground {
+  background: linear-gradient(145deg, var(--ramz-bg-secondary), #f0f0f0);
+  border-radius: var(--ramz-radius-lg);
+  padding: var(--ramz-space-lg);
+  margin: var(--ramz-space-xl) 0;
+  box-shadow: var(--ramz-shadow-lg);
+  border: 3px solid var(--ramz-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.ramz-playground::before {
+  content: "🎮";
+  position: absolute;
+  top: var(--ramz-space-sm);
+  right: var(--ramz-space-sm);
+  font-size: 1.5rem;
+}
+
+.ramz-playground-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--ramz-space-md);
+  padding-bottom: var(--ramz-space-sm);
+  border-bottom: 2px dashed var(--ramz-primary-light);
+}
+
+.ramz-playground-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ramz-primary-dark);
+  display: flex;
+  align-items: center;
+  gap: var(--ramz-space-sm);
+}
+
+.ramz-playground-actions {
+  display: flex;
+  gap: var(--ramz-space-sm);
+}
+
+.ramz-playground-button {
+  background-color: var(--ramz-accent);
+  color: white;
+  border: none;
+  padding: var(--ramz-space-xs) var(--ramz-space-sm);
+  border-radius: var(--ramz-radius-sm);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ramz-playground-button:hover {
+  background-color: var(--ramz-primary-dark);
+  transform: scale(1.05);
+}
+
+.ramz-playground-button.run {
+  background-color: var(--ramz-success);
+}
+
+.ramz-playground-button.reset {
+  background-color: var(--ramz-warning);
+}
+
+.ramz-playground-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--ramz-space-md);
+}
+
+.ramz-playground-input,
+.ramz-playground-output {
+  background-color: var(--ramz-bg-code);
+  border-radius: var(--ramz-radius-md);
+  padding: var(--ramz-space-md);
+  font-family: var(--ramz-font-mono);
+  font-size: 0.875rem;
+  min-height: 150px;
+}
+
+.ramz-playground-input {
+  color: var(--ramz-text-code);
+  border: 2px solid var(--ramz-primary);
+}
+
+.ramz-playground-output {
+  color: var(--ramz-success);
+  border: 2px solid var(--ramz-success);
+}
+
+/* Tutorial step indicators */
+.ramz-tutorial-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ramz-space-lg);
+  margin: var(--ramz-space-xl) 0;
+}
+
+.ramz-tutorial-step {
+  background-color: var(--ramz-bg-secondary);
+  border-radius: var(--ramz-radius-lg);
+  padding: var(--ramz-space-lg);
+  box-shadow: var(--ramz-shadow-sm);
+  border-right: 4px solid var(--ramz-primary);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.ramz-tutorial-step:hover {
+  transform: translateX(-5px);
+  box-shadow: var(--ramz-shadow-md);
+}
+
+.ramz-tutorial-step.completed {
+  border-right-color: var(--ramz-success);
+  background-color: rgba(6, 255, 165, 0.1);
+}
+
+.ramz-tutorial-step.active {
+  border-right-color: var(--ramz-accent);
+  background-color: rgba(67, 97, 238, 0.1);
+}
+
+.ramz-tutorial-step-number {
+  position: absolute;
+  top: var(--ramz-space-md);
+  left: var(--ramz-space-md);
+  width: 32px;
+  height: 32px;
+  background-color: var(--ramz-primary);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.ramz-tutorial-step.completed .ramz-tutorial-step-number {
+  background-color: var(--ramz-success);
+}
+
+.ramz-tutorial-step.active .ramz-tutorial-step-number {
+  background-color: var(--ramz-accent);
+}
+
+.ramz-tutorial-step-content {
+  margin-right: var(--ramz-space-2xl);
+}
+
+.ramz-tutorial-step-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--ramz-primary-dark);
+  margin-bottom: var(--ramz-space-sm);
+}
+
+.ramz-tutorial-step-description {
+  color: var(--ramz-text-secondary);
+  line-height: 1.6;
+}
+
+/* Character guide for Arabic programming */
+.ramz-character-guide {
+  background: linear-gradient(135deg, var(--ramz-primary-light), var(--ramz-secondary));
+  border-radius: var(--ramz-radius-lg);
+  padding: var(--ramz-space-xl);
+  margin: var(--ramz-space-xl) 0;
+  box-shadow: var(--ramz-shadow-lg);
+  color: white;
+}
+
+.ramz-character {
+  display: flex;
+  align-items: center;
+  gap: var(--ramz-space-lg);
+  margin: var(--ramz-space-lg) 0;
+}
+
+.ramz-character-avatar {
+  width: 80px;
+  height: 80px;
+  background-color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  flex-shrink: 0;
+  box-shadow: var(--ramz-shadow-md);
+}
+
+.ramz-character-speech {
+  background-color: white;
+  color: var(--ramz-text-primary);
+  padding: var(--ramz-space-md);
+  border-radius: var(--ramz-radius-lg);
+  position: relative;
+  box-shadow: var(--ramz-shadow-sm);
+}
+
+.ramz-character-speech::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -10px;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid white;
+  transform: translateY(-50%);
+}
+
+/* Interactive code cards */
+.ramz-code-card {
+  background-color: var(--ramz-bg-secondary);
+  border-radius: var(--ramz-radius-lg);
+  padding: var(--ramz-space-lg);
+  margin: var(--ramz-space-md) 0;
+  box-shadow: var(--ramz-shadow-sm);
+  border: 2px solid var(--ramz-primary);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.ramz-code-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--ramz-shadow-lg);
+  border-color: var(--ramz-primary-dark);
+}
+
+.ramz-code-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--ramz-space-md);
+}
+
+.ramz-code-card-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--ramz-primary-dark);
+}
+
+.ramz-code-card-icon {
+  font-size: 1.5rem;
+}
+
+.ramz-code-card-content {
+  font-family: var(--ramz-font-mono);
+  background-color: var(--ramz-bg-code);
+  color: var(--ramz-text-code);
+  padding: var(--ramz-space-md);
+  border-radius: var(--ramz-radius-sm);
+  overflow-x: auto;
+  font-size: 0.875rem;
+  direction: ltr;
+  text-align: left;
+}
+
+.ramz-code-card-description {
+  margin-top: var(--ramz-space-md);
+  color: var(--ramz-text-secondary);
+  font-size: 0.875rem;
+}
+
+/* Progress tracker */
+.ramz-progress {
+  background-color: var(--ramz-bg-secondary);
+  border-radius: var(--ramz-radius-full);
+  height: 16px;
+  margin: var(--ramz-space-lg) 0;
+  overflow: hidden;
+  box-shadow: var(--ramz-shadow-sm);
+}
+
+.ramz-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--ramz-primary), var(--ramz-primary-light));
+  border-radius: var(--ramz-radius-full);
+  transition: width 0.5s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.ramz-progress-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-image: linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.2) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.2) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 50px 50px;
+  animation: move 2s linear infinite;
+}
+
+@keyframes move {
+  0% { background-position: 0 0; }
+  100% { background-position: 50px 50px; }
+}
+
+/* Fun badges and achievements */
+.ramz-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ramz-space-xs);
+  background: linear-gradient(135deg, var(--ramz-primary), var(--ramz-primary-light));
+  color: white;
+  padding: var(--ramz-space-xs) var(--ramz-space-sm);
+  border-radius: var(--ramz-radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+  box-shadow: var(--ramz-shadow-sm);
+}
+
+.ramz-badge.gold {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+}
+
+.ramz-badge.silver {
+  background: linear-gradient(135deg, #C0C0C0, #808080);
+}
+
+.ramz-badge.bronze {
+  background: linear-gradient(135deg, #CD7F32, #8B4513);
+}
+
+/* Interactive quiz elements */
+.ramz-quiz {
+  background-color: var(--ramz-bg-secondary);
+  border-radius: var(--ramz-radius-lg);
+  padding: var(--ramz-space-lg);
+  margin: var(--ramz-space-xl) 0;
+  box-shadow: var(--ramz-shadow-md);
+  border: 2px solid var(--ramz-accent);
+}
+
+.ramz-quiz-question {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--ramz-primary-dark);
+  margin-bottom: var(--ramz-space-md);
+}
+
+.ramz-quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ramz-space-sm);
+}
+
+.ramz-quiz-option {
+  background-color: var(--ramz-bg-primary);
+  border: 2px solid var(--ramz-primary);
+  border-radius: var(--ramz-radius-md);
+  padding: var(--ramz-space-sm) var(--ramz-space-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ramz-quiz-option:hover {
+  background-color: var(--ramz-primary);
+  color: white;
+  transform: translateX(-5px);
+}
+
+.ramz-quiz-option.selected {
+  background-color: var(--ramz-accent);
+  border-color: var(--ramz-accent);
+  color: white;
+}
+
+.ramz-quiz-option.correct {
+  background-color: var(--ramz-success);
+  border-color: var(--ramz-success);
+  color: white;
+}
+
+.ramz-quiz-option.incorrect {
+  background-color: var(--ramz-error);
+  border-color: var(--ramz-error);
+  color: white;
+}
+
+.ramz-quiz-feedback {
+  margin-top: var(--ramz-space-md);
+  padding: var(--ramz-space-sm) var(--ramz-space-md);
+  border-radius: var(--ramz-radius-sm);
+  font-weight: 500;
+}
+
+.ramz-quiz-feedback.success {
+  background-color: rgba(6, 255, 165, 0.1);
+  color: var(--ramz-success);
+  border: 1px solid var(--ramz-success);
+}
+
+.ramz-quiz-feedback.error {
+  background-color: rgba(255, 0, 110, 0.1);
+  color: var(--ramz-error);
+  border: 1px solid var(--ramz-error);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .ramz-playground-content {
+    grid-template-columns: 1fr;
+  }
+  
+  .ramz-character {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .ramz-character-speech::before {
+    display: none;
+  }
+}
