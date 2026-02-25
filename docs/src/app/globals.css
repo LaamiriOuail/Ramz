@@ -1,0 +1,651 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-arabic);
+  --font-mono: var(--font-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 1rem;
+  --background: oklch(0.99 0.005 90);
+  --foreground: oklch(0.2 0.02 260);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.2 0.02 260);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.2 0.02 260);
+  --primary: oklch(0.55 0.25 290);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.85 0.1 40);
+  --secondary-foreground: oklch(0.3 0.05 40);
+  --muted: oklch(0.96 0.01 260);
+  --muted-foreground: oklch(0.5 0.02 260);
+  --accent: oklch(0.75 0.15 180);
+  --accent-foreground: oklch(0.25 0.05 180);
+  --destructive: oklch(0.6 0.2 25);
+  --border: oklch(0.9 0.02 260);
+  --input: oklch(0.92 0.01 260);
+  --ring: oklch(0.55 0.25 290);
+  --chart-1: oklch(0.65 0.25 330);
+  --chart-2: oklch(0.65 0.2 180);
+  --chart-3: oklch(0.7 0.2 90);
+  --chart-4: oklch(0.6 0.25 260);
+  --chart-5: oklch(0.7 0.15 40);
+  --sidebar: oklch(0.98 0.01 290);
+  --sidebar-foreground: oklch(0.25 0.02 260);
+  --sidebar-primary: oklch(0.55 0.25 290);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent: oklch(0.92 0.05 290);
+  --sidebar-accent-foreground: oklch(0.3 0.05 290);
+  --sidebar-border: oklch(0.9 0.02 290);
+  --sidebar-ring: oklch(0.55 0.25 290);
+}
+
+.dark {
+  --background: oklch(0.15 0.02 290);
+  --foreground: oklch(0.95 0.01 260);
+  --card: oklch(0.2 0.02 290);
+  --card-foreground: oklch(0.95 0.01 260);
+  --popover: oklch(0.2 0.02 290);
+  --popover-foreground: oklch(0.95 0.01 260);
+  --primary: oklch(0.7 0.2 290);
+  --primary-foreground: oklch(0.15 0.02 290);
+  --secondary: oklch(0.35 0.08 40);
+  --secondary-foreground: oklch(0.9 0.02 40);
+  --muted: oklch(0.25 0.02 290);
+  --muted-foreground: oklch(0.7 0.02 260);
+  --accent: oklch(0.45 0.12 180);
+  --accent-foreground: oklch(0.9 0.02 180);
+  --destructive: oklch(0.65 0.18 25);
+  --border: oklch(0.3 0.02 290);
+  --input: oklch(0.3 0.02 290);
+  --ring: oklch(0.7 0.2 290);
+  --chart-1: oklch(0.7 0.22 330);
+  --chart-2: oklch(0.7 0.18 180);
+  --chart-3: oklch(0.75 0.18 90);
+  --chart-4: oklch(0.65 0.22 260);
+  --chart-5: oklch(0.75 0.12 40);
+  --sidebar: oklch(0.18 0.02 290);
+  --sidebar-foreground: oklch(0.9 0.02 260);
+  --sidebar-primary: oklch(0.7 0.2 290);
+  --sidebar-primary-foreground: oklch(0.15 0.02 290);
+  --sidebar-accent: oklch(0.28 0.05 290);
+  --sidebar-accent-foreground: oklch(0.9 0.02 290);
+  --sidebar-border: oklch(0.3 0.02 290);
+  --sidebar-ring: oklch(0.7 0.2 290);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-arabic), 'Noto Kufi Arabic', sans-serif;
+  }
+}
+
+/* Arabic RTL specific styles */
+html[dir="rtl"] {
+  text-align: right;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: oklch(0.95 0.01 260);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: oklch(0.7 0.15 290);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.6 0.2 290);
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: oklch(0.25 0.02 290);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: oklch(0.45 0.1 290);
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes bounce-gentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+
+.animate-float { animation: float 3s ease-in-out infinite; }
+.animate-bounce-gentle { animation: bounce-gentle 2s ease-in-out infinite; }
+.animate-pulse-soft { animation: pulse-soft 2s ease-in-out infinite; }
+.animate-wiggle { animation: wiggle 1s ease-in-out infinite; }
+
+/* Rainbow gradient */
+.rainbow-gradient {
+  background: linear-gradient(90deg, oklch(0.7 0.25 330), oklch(0.7 0.25 290), oklch(0.7 0.25 250), oklch(0.7 0.2 180), oklch(0.75 0.2 90), oklch(0.7 0.2 40));
+  background-size: 200% 100%;
+  animation: rainbow-shift 5s linear infinite;
+}
+
+@keyframes rainbow-shift {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+/* Button styles */
+.btn-fun {
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 0 oklch(0.4 0.2 290);
+}
+
+.btn-fun:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 oklch(0.4 0.2 290);
+}
+
+.btn-fun:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 oklch(0.4 0.2 290);
+}
+
+/* Card hover */
+.card-hover {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 40px -10px oklch(0.5 0.2 290 / 30%);
+}
+
+/* ========================================
+   VS CODE STYLE CODE EDITOR - RAMZ RTL
+   ======================================== */
+
+/* Code wrapper - RTL container */
+.code-wrapper {
+  direction: rtl;
+  text-align: right;
+  margin: 1.5rem 0;
+}
+
+/* Main code editor container - RTL for Arabic code */
+.code-editor {
+  direction: rtl;
+  text-align: right;
+  font-family: 'Fira Code', 'Cascadia Code', 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
+  background: #1e1e1e;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  max-width: 100%;
+}
+
+/* Light mode code editor */
+html:not(.dark) .code-editor {
+  background: #ffffff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+/* Editor header with filename and controls */
+.code-editor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: #252526;
+  border-bottom: 1px solid #3c3c3c;
+}
+
+html:not(.dark) .code-editor-header {
+  background: #f3f3f3;
+  border-bottom-color: #e0e0e0;
+}
+
+/* File tab styling */
+.code-editor-tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  background: #1e1e1e;
+  border-radius: 4px 4px 0 0;
+  color: #cccccc;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+html:not(.dark) .code-editor-tab {
+  background: #ffffff;
+  color: #333333;
+  border: 1px solid #e0e0e0;
+}
+
+/* Language badge */
+.code-lang-badge {
+  background: #3c3c3c;
+  color: #9cdcfe;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+html:not(.dark) .code-lang-badge {
+  background: #e8e8e8;
+  color: #007acc;
+}
+
+/* Copy button */
+.code-copy-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  background: #3c3c3c;
+  border: 1px solid #4c4c4c;
+  border-radius: 6px;
+  color: #cccccc;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.code-copy-btn:hover {
+  background: #4c4c4c;
+  color: #ffffff;
+}
+
+html:not(.dark) .code-copy-btn {
+  background: #f0f0f0;
+  border-color: #d0d0d0;
+  color: #333333;
+}
+
+html:not(.dark) .code-copy-btn:hover {
+  background: #e0e0e0;
+  color: #000000;
+}
+
+/* Code content container - flexbox for line numbers + code */
+.code-content {
+  display: flex;
+  flex-direction: row-reverse; /* RTL: line numbers on right, code on left */
+  background: #1e1e1e;
+  overflow-x: auto;
+}
+
+html:not(.dark) .code-content {
+  background: #ffffff;
+}
+
+/* Line numbers column */
+.line-numbers {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 0;
+  background: #1e1e1e;
+  border-left: 1px solid #3c3c3c; /* RTL: border on left side */
+  min-width: 50px;
+  text-align: left; /* RTL: numbers aligned to the code */
+  user-select: none;
+  flex-shrink: 0;
+}
+
+html:not(.dark) .line-numbers {
+  background: #fafafa;
+  border-left-color: #e0e0e0;
+}
+
+/* Single line number */
+.line-num {
+  padding: 0 12px;
+  color: #858585;
+  font-size: 14px;
+  line-height: 22px;
+  height: 22px;
+  font-variant-numeric: tabular-nums;
+}
+
+html:not(.dark) .line-num {
+  color: #999999;
+}
+
+/* Code lines container */
+.code-lines {
+  flex: 1;
+  padding: 16px 16px 16px 16px;
+  min-width: 0;
+}
+
+/* Single code line */
+.code-line {
+  font-size: 14px;
+  line-height: 22px;
+  height: 22px;
+  white-space: pre;
+  color: #d4d4d4;
+}
+
+html:not(.dark) .code-line {
+  color: #333333;
+}
+
+/* Empty line */
+.code-line:empty::before {
+  content: ' ';
+}
+
+/* ========================================
+   SYNTAX HIGHLIGHTING - VS CODE DARK+ THEME
+   Special colors for Ramz Arabic language
+   ======================================== */
+
+/* Control flow keywords - Purple (#C586C0)
+   إذا، وإلا، بينما، لكل، اوقف، تخطى */
+.token-control {
+  color: #c586c0;
+  font-weight: 600;
+}
+
+html:not(.dark) .token-control {
+  color: #af00db;
+}
+
+/* Declaration keywords - Blue (#569CD6)
+   متغير، دالة */
+.token-declaration {
+  color: #569cd6;
+  font-weight: 600;
+}
+
+html:not(.dark) .token-declaration {
+  color: #0000ff;
+}
+
+/* Type keywords - Cyan (#4EC9B0)
+   رقم، عشري، نص، منطقية، قائمة، قاموس، زوج */
+.token-type {
+  color: #4ec9b0;
+  font-weight: 500;
+}
+
+html:not(.dark) .token-type {
+  color: #267f99;
+}
+
+/* Built-in functions - Yellow (#DCDCAA)
+   اكتب، اقرأ، ادع */
+.token-builtin {
+  color: #dcdcaa;
+  font-weight: 500;
+}
+
+html:not(.dark) .token-builtin {
+  color: #795e26;
+}
+
+/* Return keyword - Purple (#C586C0)
+   ارجع */
+.token-return {
+  color: #c586c0;
+  font-weight: 600;
+}
+
+html:not(.dark) .token-return {
+  color: #af00db;
+}
+
+/* Strings - Orange/Brown (#CE9178)
+   "مرحباً"، 'نص' */
+.token-string {
+  color: #ce9178;
+}
+
+html:not(.dark) .token-string {
+  color: #a31515;
+}
+
+/* Numbers - Light Green (#B5CEA8)
+   42، 3.14، 0 */
+.token-number {
+  color: #b5cea8;
+}
+
+html:not(.dark) .token-number {
+  color: #098658;
+}
+
+/* Comments - Green (#6A9955)
+   # هذا تعليق */
+.token-comment {
+  color: #6a9955;
+  font-style: italic;
+}
+
+html:not(.dark) .token-comment {
+  color: #008000;
+}
+
+/* Operators - Light Gray (#D4D4D4)
+   +، -، *، /، =، ==، <، >، &&، || */
+.token-operator {
+  color: #d4d4d4;
+}
+
+html:not(.dark) .token-operator {
+  color: #000000;
+}
+
+/* Booleans - Blue (#569CD6)
+   صحيح، خطأ */
+.token-boolean {
+  color: #569cd6;
+  font-weight: 600;
+}
+
+html:not(.dark) .token-boolean {
+  color: #0000ff;
+}
+
+/* Punctuation - Light Gray (#D4D4D4)
+   (، )، {، }، [، ]، ،، : */
+.token-punctuation {
+  color: #d4d4d4;
+}
+
+html:not(.dark) .token-punctuation {
+  color: #333333;
+}
+
+/* Identifiers/Variables - Light Blue (#9CDCFE)
+   اسمك، العمر، etc. */
+.token-identifier {
+  color: #9cdcfe;
+}
+
+html:not(.dark) .token-identifier {
+  color: #001080;
+}
+
+/* Error highlighting */
+.token-error {
+  color: #f44747;
+  text-decoration: wavy underline;
+}
+
+html:not(.dark) .token-error {
+  color: #ff0000;
+}
+
+/* Selection highlight */
+.code-line::selection {
+  background: #264f78;
+}
+
+html:not(.dark) .code-line::selection {
+  background: #add6ff;
+}
+
+/* Active line highlight */
+.code-line:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+html:not(.dark) .code-line:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+/* ========================================
+   INLINE CODE STYLING
+   ======================================== */
+
+.inline-code {
+  direction: ltr;
+  display: inline-block;
+  background: #1e1e1e;
+  color: #ce9178;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: 0.9em;
+}
+
+/* ========================================
+   RESPONSIVE ADJUSTMENTS
+   ======================================== */
+
+@media (max-width: 640px) {
+  .code-editor {
+    border-radius: 8px;
+    font-size: 13px;
+  }
+  
+  .code-editor-header {
+    padding: 8px 12px;
+  }
+  
+  .code-editor-tab {
+    font-size: 12px;
+  }
+  
+  .line-numbers {
+    min-width: 40px;
+    padding: 12px 0;
+  }
+  
+  .line-num {
+    padding: 0 8px;
+    font-size: 12px;
+  }
+  
+  .code-lines {
+    padding: 12px;
+  }
+  
+  .code-line {
+    font-size: 13px;
+  }
+}
+
+/* ========================================
+   DARK MODE THEME SUPPORT
+   ======================================== */
+
+.dark .code-editor {
+  background: #0d1117;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.dark .code-editor-header {
+  background: #161b22;
+  border-bottom-color: #30363d;
+}
+
+.dark .line-numbers {
+  border-right-color: #30363d;
+}
+
+.dark .line-num {
+  color: #6e7681;
+}
+
+.dark .code-lang-badge {
+  background: #30363d;
+  color: #79c0ff;
+}
+
+.dark .code-copy-btn {
+  background: #30363d;
+  border-color: #3d444d;
+  color: #8b949e;
+}
+
+.dark .code-copy-btn:hover {
+  background: #3d444d;
+  color: #c9d1d9;
+}
