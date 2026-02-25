@@ -1,0 +1,71 @@
+site_name: رمز - لغة برمجة عربية للأطفال
+site_description: تعلم البرمجة بالعربية بطريقة ممتعة وسهلة
+site_author: LaamiriOuail
+site_url: http://localhost:8000
+
+# Theme configuration
+theme:
+  name: material
+  language: ar
+  direction: rtl
+  palette:
+    - scheme: default
+      primary: deep orange
+      accent: orange
+      toggle:
+        icon: material/brightness-7
+        name: Switch to light/dark mode
+    features:
+      - navigation.tabs
+      - navigation.sections
+      - navigation.expand
+      - navigation.top
+      - search.suggest
+      - search.highlight
+      - content.tabs.link
+      - content.code.copy
+      - content.code.annotate
+      - toc.follow
+      - toc.integrate
+      - content.tooltips
+
+# Plugins
+plugins:
+  - search:
+      lang: ar
+  - i18n:
+      default_language: ar
+      languages:
+        - ar: default
+          name: Arabic
+        - en:
+          name: English
+
+# Markdown Extensions
+markdown_extensions:
+  - pymdownx.extra
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed
+  - pymdownx.tasklist
+
+# Navigation
+nav:
+  - الرئيسية: index.md
+  - الدليل الشامل: beginner-guide.md
+  - مرجع سريع: quick-reference.md
+  - الدروس التعليمية:
+    - الدروس/first-steps.md
+    - الدروس/variables.md
+    - الدروس/input-output.md
+    - الدروس/functions.md
+    - الدروس/conditionals.md
+    - الدروس/loops.md
+    - الدروس/types.md
+    - الدروس/operators.md
+    - الدروس/collections.md
+    - الدروس/builtins.md
+  - أدلة إضافية:
+    - أدلة/functions.md
