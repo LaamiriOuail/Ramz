@@ -1,0 +1,143 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Ramz",
+  "scopeName": "source.ramz",
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#numbers"
+    },
+    {
+      "include": "#booleans"
+    },
+    {
+      "include": "#operators"
+    },
+    {
+      "include": "#punctuation"
+    },
+    {
+      "include": "#functions"
+    },
+    {
+      "include": "#identifiers"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "name": "comment.line.number-sign.ramz",
+      "match": "#.*$"
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.ramz",
+          "match": "\\b(إذا|وإلا|كرر|لكل|في|افعل|طالما|من|إلى|خطوة|اوقف|تخطى)\\b"
+        },
+        {
+          "name": "keyword.declaration.ramz",
+          "match": "\\b(متغير|دالة|ارجع)\\b"
+        },
+        {
+          "name": "support.type.ramz",
+          "match": "\\b(رقم|عشري|نص|منطقية|قائمة|قاموس|زوج)\\b"
+        },
+        {
+          "name": "keyword.other.ramz",
+          "match": "\\b(ادع|اقرأ|اكتب)\\b"
+        }
+      ]
+    },
+    "strings": {
+      "name": "string.quoted.double.ramz",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "name": "constant.character.escape.ramz",
+          "match": "\\\\."
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.float.ramz",
+          "match": "\\b\\d+\\.\\d+\\b"
+        },
+        {
+          "name": "constant.numeric.integer.ramz",
+          "match": "\\b\\d+\\b"
+        }
+      ]
+    },
+    "booleans": {
+      "name": "constant.language.boolean.ramz",
+      "match": "\\b(صحيح|خطأ)\\b"
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.comparison.ramz",
+          "match": "(==|!=|<=|>=|<|>)"
+        },
+        {
+          "name": "keyword.operator.assignment.ramz",
+          "match": "(=|\\+=|-=|\\*=|/=|%=)"
+        },
+        {
+          "name": "keyword.operator.arithmetic.ramz",
+          "match": "[+\\-*/%]"
+        },
+        {
+          "name": "keyword.operator.logical.ramz",
+          "match": "!"
+        }
+      ]
+    },
+    "punctuation": {
+      "patterns": [
+        {
+          "name": "punctuation.section.block.ramz",
+          "match": "[{}]"
+        },
+        {
+          "name": "punctuation.section.parens.ramz",
+          "match": "[()]"
+        },
+        {
+          "name": "punctuation.section.brackets.ramz",
+          "match": "[\\[\\]]"
+        },
+        {
+          "name": "punctuation.separator.comma.ramz",
+          "match": ","
+        },
+        {
+          "name": "punctuation.separator.colon.ramz",
+          "match": ":"
+        }
+      ]
+    },
+    "functions": {
+      "patterns": [
+        {
+          "name": "entity.name.function.ramz",
+          "match": "\\b([\\u0600-\\u06FFa-zA-Z_][\\u0600-\\u06FFa-zA-Z0-9_]*)\\s*(?=\\()"
+        }
+      ]
+    },
+    "identifiers": {
+      "name": "variable.other.ramz",
+      "match": "\\b[\\u0600-\\u06FFa-zA-Z_][\\u0600-\\u06FFa-zA-Z0-9_]*\\b"
+    }
+  }
+}

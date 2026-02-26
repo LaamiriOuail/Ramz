@@ -1,0 +1,241 @@
+{
+  "Variable Declaration": {
+    "prefix": "متغير",
+    "body": [
+      "متغير ${1:اسم} = ${2:قيمة}"
+    ],
+    "description": "إعلان متغير جديد - Declare a new variable",
+    "description_en": "Declare a new variable"
+  },
+  "Variable with Type": {
+    "prefix": "متغير:",
+    "body": [
+      "متغير ${1:اسم}: ${2|رقم,عشري,نص,منطقية,قائمة,قاموس|} = ${3:قيمة}"
+    ],
+    "description": "إعلان متغير مع تحديد النوع - Declare variable with type",
+    "description_en": "Declare variable with type"
+  },
+  "If Statement": {
+    "prefix": "إذا",
+    "body": [
+      "إذا ${1:شرط} {",
+      "\t${2:عبارة}",
+      "}"
+    ],
+    "description": "جملة شرطية - If statement",
+    "description_en": "If statement"
+  },
+  "If-Else Statement": {
+    "prefix": "إذا-وإلا",
+    "body": [
+      "إذا ${1:شرط} {",
+      "\t${2:عبارة}",
+      "} وإلا {",
+      "\t${3:عبارة_بديلة}",
+      "}"
+    ],
+    "description": "جملة شرطية مع بديل - If-else statement",
+    "description_en": "If-else statement"
+  },
+  "While Loop": {
+    "prefix": "كرر",
+    "body": [
+      "كرر ${1:شرط} {",
+      "\t${2:عبارة}",
+      "}"
+    ],
+    "description": "حلقة كرر - While loop",
+    "description_en": "While loop"
+  },
+  "For Range Loop": {
+    "prefix": "لكل-من",
+    "body": [
+      "لكل ${1:متغير} من ${2:بداية} إلى ${3:نهاية} {",
+      "\t${4:عبارة}",
+      "}"
+    ],
+    "description": "حلقة لكل مع نطاق - For loop with range",
+    "description_en": "For loop with range"
+  },
+  "For Range with Step": {
+    "prefix": "لكل-خطوة",
+    "body": [
+      "لكل ${1:متغير} من ${2:بداية} إلى ${3:نهاية} خطوة ${4:قيمة} {",
+      "\t${5:عبارة}",
+      "}"
+    ],
+    "description": "حلقة لكل مع خطوة - For loop with step",
+    "description_en": "For loop with step"
+  },
+  "For Each Loop": {
+    "prefix": "لكل-في",
+    "body": [
+      "لكل ${1:عنصر} في ${2:مجموعة} {",
+      "\t${3:عبارة}",
+      "}"
+    ],
+    "description": "حلقة لكل في - For-each loop",
+    "description_en": "For-each loop"
+  },
+  "Do-While Loop": {
+    "prefix": "افعل",
+    "body": [
+      "افعل {",
+      "\t${1:عبارة}",
+      "} طالما ${2:شرط}"
+    ],
+    "description": "حلقة افعل-طالما - Do-while loop",
+    "description_en": "Do-while loop"
+  },
+  "Function Declaration": {
+    "prefix": "دالة",
+    "body": [
+      "دالة ${1:اسم}(${2:معاملات}) {",
+      "\t${3:عبارة}",
+      "}"
+    ],
+    "description": "إعلان دالة - Function declaration",
+    "description_en": "Function declaration"
+  },
+  "Function with Return": {
+    "prefix": "دالة-ارجع",
+    "body": [
+      "دالة ${1:اسم}(${2:معاملات}) {",
+      "\t${3:عبارة}",
+      "\tارجع ${4:قيمة}",
+      "}"
+    ],
+    "description": "دالة مع قيمة إرجاع - Function with return value",
+    "description_en": "Function with return value"
+  },
+  "Function Call": {
+    "prefix": "ادع",
+    "body": [
+      "ادع ${1:اسم_الدالة}(${2:معطيات})"
+    ],
+    "description": "استدعاء دالة - Function call",
+    "description_en": "Function call"
+  },
+  "Print Statement": {
+    "prefix": "اكتب",
+    "body": [
+      "اكتب(\"${1:نص}\")"
+    ],
+    "description": "طباعة نص - Print text",
+    "description_en": "Print text"
+  },
+  "Read Input": {
+    "prefix": "اقرأ",
+    "body": [
+      "متغير ${1:متغير} = اقرأ(\"${2:رسالة}\")"
+    ],
+    "description": "قراءة مدخل - Read input",
+    "description_en": "Read input"
+  },
+  "List Declaration": {
+    "prefix": "قائمة",
+    "body": [
+      "متغير ${1:اسم} = [${2:عناصر}]"
+    ],
+    "description": "إعلان قائمة - List declaration",
+    "description_en": "List declaration"
+  },
+  "Dictionary Declaration": {
+    "prefix": "قاموس",
+    "body": [
+      "متغير ${1:اسم} = {\"${2:مفتاح}\": ${3:قيمة}}"
+    ],
+    "description": "إعلان قاموس - Dictionary declaration",
+    "description_en": "Dictionary declaration"
+  },
+  "Break Statement": {
+    "prefix": "اوقف",
+    "body": [
+      "اوقف"
+    ],
+    "description": "إيقاف الحلقة - Break loop",
+    "description_en": "Break loop"
+  },
+  "Continue Statement": {
+    "prefix": "تخطى",
+    "body": [
+      "تخطى"
+    ],
+    "description": "تخطي التكرار - Continue loop",
+    "description_en": "Continue loop"
+  },
+  "Return Statement": {
+    "prefix": "ارجع",
+    "body": [
+      "ارجع ${1:قيمة}"
+    ],
+    "description": "إرجاع قيمة - Return value",
+    "description_en": "Return value"
+  },
+  "Hello World": {
+    "prefix": "مرحبا",
+    "body": [
+      "# برنامج مرحبا بالعالم",
+      "اكتب(\"مرحباً بالعالم!\")"
+    ],
+    "description": "برنامج مرحبا بالعالم - Hello World program",
+    "description_en": "Hello World program"
+  },
+  "Complete Program Template": {
+    "prefix": "برنامج",
+    "body": [
+      "# ${1:اسم_البرنامج}",
+      "# ${2:وصف_البرنامج}",
+      "",
+      "# المتغيرات",
+      "متغير ${3:متغير} = ${4:قيمة}",
+      "",
+      "# الدوال",
+      "دالة ${5:دالة_رئيسية}() {",
+      "\t${6:كود}",
+      "}",
+      "",
+      "# التنفيذ الرئيسي",
+      "ادع ${5:دالة_رئيسية}()"
+    ],
+    "description": "قالب برنامج كامل - Complete program template",
+    "description_en": "Complete program template"
+  },
+  "If-ElseIf-Else Chain": {
+    "prefix": "إذا-متعدد",
+    "body": [
+      "إذا ${1:شرط1} {",
+      "\t${2:عبارة1}",
+      "} وإلا إذا ${3:شرط2} {",
+      "\t${4:عبارة2}",
+      "} وإلا {",
+      "\t${5:عبارة_بديلة}",
+      "}"
+    ],
+    "description": "سلسلة شروط متعددة - Multiple if-else-if-else chain",
+    "description_en": "Multiple if-else-if-else chain"
+  },
+  "Nested Loop": {
+    "prefix": "حلقة-متداخلة",
+    "body": [
+      "لكل ${1:i} من ${2:1} إلى ${3:10} {",
+      "\tلكل ${4:j} من ${5:1} إلى ${6:5} {",
+      "\t\tاكتب(i + \"-\" + j)",
+      "\t}",
+      "}"
+    ],
+    "description": "حلقة متداخلة - Nested loop",
+    "description_en": "Nested loop"
+  },
+  "Function with Multiple Parameters": {
+    "prefix": "دالة-متعددة",
+    "body": [
+      "دالة ${1:اسم}(${2:param1}, ${3:param2}, ${4:param3}) {",
+      "\t${5:كود}",
+      "\tارجع ${6:قيمة_الإرجاع}",
+      "}"
+    ],
+    "description": "دالة بمعاملات متعددة - Function with multiple parameters",
+    "description_en": "Function with multiple parameters"
+  }
+}

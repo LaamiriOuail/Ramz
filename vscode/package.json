@@ -1,0 +1,137 @@
+{
+  "name": "ramz-language",
+  "displayName": "Ramz Language Support (لغة رمز)",
+  "description": "دعم كامل للغة برمجة رمز - Full support for Ramz programming language",
+  "version": "0.1.0",
+  "publisher": "laamiriouail",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Snippets"
+  ],
+  "keywords": [
+    "ramz",
+    "رمز",
+    "arabic",
+    "programming language",
+    "RTL"
+  ],
+  "activationEvents": [
+    "onLanguage:ramz",
+    "onCommand:ramz.run",
+    "onCommand:ramz.check"
+  ],
+  "main": "./dist/extension.js",
+  "icon": "icons/ramz-dark.png",
+  "contributes": {
+    "languages": [
+      {
+        "id": "ramz",
+        "aliases": [
+          "Ramz",
+          "رمز",
+          "ramz"
+        ],
+        "extensions": [
+          ".ramz",
+          ".رمز"
+        ],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./icons/ramz-light.png",
+          "dark": "./icons/ramz-dark.png"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "ramz",
+        "scopeName": "source.ramz",
+        "path": "./syntaxes/ramz.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "ramz",
+        "path": "./snippets/ramz.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "ramz.run",
+        "title": "تشغيل برنامج رمز",
+        "title_en": "Run Ramz Program",
+        "category": "Ramz"
+      },
+      {
+        "command": "ramz.check",
+        "title": "فحص الأخطاء",
+        "title_en": "Check for Errors",
+        "category": "Ramz"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "when": "resourceLangId == ramz",
+          "command": "ramz.run",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Ramz Language",
+      "properties": {
+        "ramz.interpreterPath": {
+          "type": "string",
+          "default": "ramz",
+          "description": "المسار إلى مفسر رمز - Path to Ramz interpreter"
+        },
+        "ramz.enableDiagnostics": {
+          "type": "boolean",
+          "default": true,
+          "description": "تفعيل فحص الأخطاء في الوقت الحقيقي - Enable real-time error checking"
+        },
+        "ramz.language": {
+          "type": "string",
+          "enum": [
+            "ar",
+            "en"
+          ],
+          "default": "ar",
+          "description": "لغة الواجهة - Interface language"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.34",
+    "@types/vscode": "^1.109.0",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "@vscode/test-electron": "^2.3.8",
+    "eslint": "^8.57.1",
+    "ts-loader": "^9.5.4",
+    "typescript": "^5.9.3",
+    "webpack": "^5.105.3",
+    "webpack-cli": "^5.1.4"
+  },
+  "directories": {
+    "example": "examples"
+  },
+  "author": "",
+  "license": "ISC"
+}

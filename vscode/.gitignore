@@ -1,0 +1,16 @@
+node_modules
+.vscode-test
+dist
+*.vsix
+.DS_Store
+*.log
+out
+.vscode/settings.json
+.vscode/tasks.json
+.vscode/launch.json
+.vscode/extensions.json
+coverage
+.nyc_output
+*.tgz
+.DS_Store
+Thumbs.db
