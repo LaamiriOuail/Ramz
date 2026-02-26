@@ -24,7 +24,7 @@
     "onCommand:ramz.check"
   ],
   "main": "./dist/extension.js",
-  "icon": "icons/ramz-dark.png",
+  "icon": "icons/ramz-dark.svg",
   "contributes": {
     "languages": [
       {
@@ -40,8 +40,8 @@
         ],
         "configuration": "./language-configuration.json",
         "icon": {
-          "light": "./icons/ramz-light.png",
-          "dark": "./icons/ramz-dark.png"
+          "light": "./icons/ramz-light.svg",
+          "dark": "./icons/ramz-dark.svg"
         }
       }
     ],

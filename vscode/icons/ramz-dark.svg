@@ -1,0 +1,22 @@
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect x="0" y="0" width="256" height="256" rx="32" fill="#E2E8F0"/>
+  
+  <!-- Code Brackets -->
+  <path d="M 48 64 L 128 64 L 208 64 L 208 192 L 48 192 Z" fill="none" stroke="#E2E8F0" stroke-width="16" stroke-linejoin="round"/>
+  
+  <!-- Arabic Letter Ra -->
+  <text x="128" y="155"
+        font-size="80"
+        text-anchor="middle"
+        fill="#FFFFFF"
+        font-family="sans-serif"
+        font-weight="bold">ر</text>
+  
+  <!-- Ramz Text -->
+  <text x="128" y="230"
+        font-size="28"
+        text-anchor="middle"
+        fill="#FFFFFF"
+        font-family="sans-serif">رمز</text>
+</svg>
