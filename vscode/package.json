@@ -115,15 +115,22 @@
     "watch-tests": "tsc -p . -w --outDir out",
     "pretest": "npm run compile-tests && npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
+    "test": "node ./out/test/runTest.js",
+    "test:unit": "mocha out/test/suite/**/*.test.js",
+    "test:coverage": "nyc npm run test:unit --reporter=json --reporter-options output-file=coverage.json -- mocha --exclude \"src/test\"",
+    "test:watch": "mocha --watch out/test/suite/**/*.test.js"
   },
   "devDependencies": {
+    "@istanbuljs/nyc-config-typescript": "^1.0.2",
+    "@types/mocha": "^10.0.10",
     "@types/node": "^20.19.34",
     "@types/vscode": "^1.109.0",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "@vscode/test-electron": "^2.3.8",
     "eslint": "^8.57.1",
+    "mocha": "^11.7.5",
+    "nyc": "^18.0.0",
     "ts-loader": "^9.5.4",
     "typescript": "^5.9.3",
     "webpack": "^5.105.3",
