@@ -1,0 +1,5 @@
+{
+  "asset": "dist/extension.js",
+  "displayName": "Ramz Language Support (لغة رمز)",
+  "description": "دعم كامل للغة برمجة رمز - Full support for Ramz programming language"
+}

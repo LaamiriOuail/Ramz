@@ -1,7 +1,5 @@
 # Ramz Language Support (دعم لغة رمز) for Visual Studio Code
 
-![Ramz VSCode Extension](icons/ramz-preview.png)
-
 **دعم كامل للغة برمجة رمز - Full support for Ramz programming language in Visual Studio Code.**
 
 ---

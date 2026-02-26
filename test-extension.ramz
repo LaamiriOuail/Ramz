@@ -1,0 +1,25 @@
+# This is a test file for Ramz extension
+# Testing syntax highlighting and auto-completion
+
+# Variable declarations
+متغير العمر = 25
+متغير الاسم: نص = "أحمد"
+متغير النشط = صحيح
+
+# If statement
+إذا العمر >= 18:
+    اكتب("أنت بالغ")
+وإلا:
+    اكتب("أنت قاصر")
+
+# Loop
+لكل i من 1 إلى 10:
+    اكتب(i)
+
+# Function
+دالة ترحيب() {
+    اكتب("مرحباً!")
+}
+
+# Function call
+ادع ترحيب()

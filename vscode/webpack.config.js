@@ -14,7 +14,7 @@ const config = {
     vscode: 'commonjs vscode'
   },
   resolve: {
-    extensions: ['.TS', '.js']
+    extensions: ['.ts', '.js']
   },
   module: {
     rules: [
